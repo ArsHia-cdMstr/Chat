@@ -32,22 +32,22 @@ def sender(message, client_socket, target):
             client[0].send(message)
             break
         if client == clients[-1]:
-            client_socket.send(f"{target.decode()} is not online.".encode())
+            client_socket.send(f"\n{target.decode()} device isn't available .".encode())
 
 
 def accept_clients():
     while True:
         client_socket, address = server_socket.accept()
-        user = client_socket.recv(1024)
-        target = client_socket.recv(1024)
-        clients.append([client_socket, user, target])
+        user_account_name = client_socket.recv(1024)
+        target_account_name = client_socket.recv(1024)
+        clients.append([client_socket, user_account_name, target_account_name])
         # print(clients)
-        print(f"New connection from {address}-----username: {user.decode()}-----target: {target.decode()}")
-        client_socket.send("Welcome to the chat room!".encode())
-        thread = threading.Thread(target=work_with_client, args=(client_socket, address, target))
+        print(f"A new connection was created with address : << {address} >>  username: << {user_account_name.decode()} >> target: << {target_account_name.decode()} >>")
+        client_socket.send("_____________________   Chat Page   _____________________".encode())
+        thread = threading.Thread(target=work_with_client, args=(client_socket, address, target_account_name))
         thread.start()
 
 
-print("Server started!")
+print("Server is on")
 accept_thread = threading.Thread(target=accept_clients)
 accept_thread.start()
